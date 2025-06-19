@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learn More – EduVerse</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* ---------- base + shared theme ---------- */
+:root{
+  --grad-bg:linear-gradient(135deg,#0f2027 0%,#203a43 40%,#2c5364 100%);
+  --glass:rgba(255,255,255,.06);
+  --glass-line:rgba(255,255,255,.18);
+  --accent:#00c6ff;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body,html{scroll-behavior:smooth;height:100%;color:#fff;background:#121212}
+section{
+  position:relative;min-height:100vh;width:100%;
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px;
+}
+.parallax{
+  background-attachment:fixed;background-size:cover;background-position:center;
+}
+
+/* overlay card for readability */
+.overlay{
+  background:var(--glass);
+  border:1px solid var(--glass-line);
+  backdrop-filter:blur(14px);
+  border-radius:24px;
+  padding:50px 40px;
+  max-width:900px;
+  width:100%;
+}
+h1,h2{color:var(--accent);text-shadow:0 0 8px rgba(0,198,255,.4)}
+h1{font-size:3rem;margin-bottom:20px}
+h2{font-size:2rem;margin:20px 0 10px}
+p{font-size:1.05rem;line-height:1.7;margin-bottom:16px;color:#dde}
+ul{list-style:✔;margin:0 0 24px 22px;text-align:left}
+ul li{margin:8px 0;line-height:1.5}
+.btn{
+  display:inline-block;margin-top:28px;padding:14px 34px;border-radius:40px;
+  background:var(--accent);color:#000;font-weight:700;text-decoration:none;
+  transition:.25s transform;
+}
+.btn:hover{transform:scale(1.06)}
+.back{position:fixed;top:20px;left:20px;padding:8px 22px;border-radius:30px;
+  border:none;background:#333;color:#fff;cursor:pointer;z-index:1000}
+
+@media(max-width:650px){
+  h1{font-size:2.2rem}
+  .overlay{padding:36px 24px}
+}
+
+/* background images */
+.bg-hero{background-image:url('https://images.unsplash.com/photo-1555435021-190dd4a66c8e?auto=format&fit=crop&w=1400&q=80')}
+.bg-why {background-image:url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80')}
+.bg-benefits{background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80')}
+.bg-courses{background-image:url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1400&q=80')}
+.bg-success{background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=80')}
+.bg-enroll {background-image:url('https://images.unsplash.com/photo-1581091870622-5935b1d35c1c?auto=format&fit=crop&w=1400&q=80')}
+</style>
+</head>
+<body>
+
+<button class="back" onclick="location.href='index.html'">← Home</button>
+
+<!-- HERO / INTRO -->
+<section class="parallax bg-hero">
+  <div class="overlay">
+    <h1>EduVerse Academy</h1>
+    <p>
+      EduVerse Academy offers <strong>1500+ free courses with certificates</strong> in
+      high‑demand fields like Data Science, AI, ML, Cloud, Cybersecurity, Digital Marketing and more.
+    </p>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="parallax bg-why">
+  <div class="overlay">
+    <h2>Why Choose Us?</h2>
+    <ul>
+      <li><strong>Free Courses with Certificates</strong> on completion</li>
+      <li><strong>Industry‑Relevant Curriculum</strong> curated by experts</li>
+      <li><strong>Expert Instructors</strong> &amp; renowned professionals</li>
+      <li><strong>Flexible Learning</strong> – study at your pace</li>
+      <li><strong>Hands‑On Experience</strong> with real assignments</li>
+    </ul>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="parallax bg-benefits">
+  <div class="overlay">
+    <h2>Benefits</h2>
+    <p>✔ Live sessions &amp; webinars for real‑time insights<br>
+       ✔ Shareable certificates for LinkedIn<br>
+       ✔ Career‑oriented content to make you job‑ready</p>
+  </div>
+</section>
+
+<!-- POPULAR COURSES -->
+<section class="parallax bg-courses">
+  <div class="overlay">
+    <h2>Popular Free Courses</h2>
+    <ul>
+      <li>Artificial Intelligence Foundations</li>
+      <li>Data Science Essentials</li>
+      <li>Machine Learning Crash Course</li>
+      <li>Cloud Computing Basics</li>
+      <li>Cyber Security Fundamentals</li>
+      <li>Digital Marketing Masterclass</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SUCCESS STORIES -->
+<section class="parallax bg-success">
+  <div class="overlay">
+    <h2>Success Stories</h2>
+    <p>
+      12 million learners across 170 countries have advanced their careers
+      through EduVerse. Many have transitioned into Data Scientists, Cloud Engineers,
+      and Digital Marketers with our free programs.
+    </p>
+  </div>
+</section>
+
+<!-- ENROLL TODAY -->
+<section class="parallax bg-enroll">
+  <div class="overlay">
+    <h2>Enroll Today</h2>
+    <p>
+      Sign up with your email or Google account and start learning instantly. <br>
+      Download our mobile app on the <em>Google Play Store</em> or <em>Apple App Store</em> and learn on the go!
+    </p>
+    <a class="btn" href="start.html">Get Started →</a>
+  </div>
+</section>
+
+</body>
+</html>

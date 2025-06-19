@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduVerse</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+:root{
+  --grad-bg:linear-gradient(135deg,#0f2027 0%,#203a43 40%,#2c5364 100%);
+  --glass:rgba(255,255,255,.06);
+  --glass-line:rgba(255,255,255,.18);
+  --text-color:#fff;
+  --panel-bg:rgba(255,255,255,.05);
+}
+
+/* keep body dark during loader */
+body{background:#121212;color:var(--text-color);overflow:hidden;}
+
+/* ---------- LOADER ---------- */
+.loader-container{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:80%;max-width:600px;height:30px;background:rgba(255,255,255,.1);
+  border-radius:15px;overflow:hidden;box-shadow:0 0 20px rgba(0,0,0,.5);z-index:1000;
+}
+.loader-bar{position:absolute;height:100%;width:0%;
+  background:linear-gradient(90deg,#00c6ff,#0072ff);border-radius:15px;
+  transition:width .3s ease-out;box-shadow:0 0 10px rgba(0,114,255,.7);}
+.loader-percentage,.loader-dots{
+  position:fixed;font-size:18px;color:rgba(255,255,255,.8);z-index:1001}
+.loader-percentage{bottom:20px;left:20px;font-family:'Courier New',monospace;}
+.loader-dots{bottom:20px;right:20px;animation:dotPulse 1.5s infinite}
+@keyframes dotPulse{0%,20%{opacity:0;}50%{opacity:1;}100%{opacity:0}}
+.loader-particles{position:absolute;width:100%;height:100%;pointer-events:none}
+.particle{position:absolute;width:4px;height:4px;background:#00c6ff;border-radius:50%;
+  opacity:0;animation:particleFloat 2s ease-out infinite}
+@keyframes particleFloat{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(-50px) translateX(20px);opacity:0;}
+}
+.loader-complete{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:24px;color:#00c6ff;text-shadow:0 0 10px rgba(0,198,255,.7);
+  opacity:0;z-index:1001;transition:.5s}
+.bar-piece{position:absolute;height:100%;width:50%;
+  background:linear-gradient(90deg,#00c6ff,#0072ff);border-radius:15px;
+  transition:all .8s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 0 20px rgba(0,114,255,.7)}
+.bar-piece.left{left:0;transform-origin:left center}
+.bar-piece.right{right:0;transform-origin:right center}
+
+/* ---------- MAIN PAGE (initially hidden) ---------- */
+#main-content{opacity:0;pointer-events:none;
+  transition:opacity .6s ease;background:var(--grad-bg);min-height:100vh;overflow-x:hidden}
+
+/* Theme toggle */
+#themeToggle{position:fixed;top:20px;right:20px;padding:8px 14px;border-radius:8px;border:none;
+  cursor:pointer;z-index:10;font-weight:bold}
+
+/* Rating chips */
+.rating-bar{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;padding:10px 0;margin-top:60px}
+.rating-chip{background:#222b3a;border:1px solid rgba(255,255,255,.12);border-radius:22px;
+  font-size:.85rem;padding:6px 16px;display:flex;gap:6px;align-items:center;color:#e5e7eb}
+.star{color:#ffd54d}
+
+/* Hero */
+.hero{text-align:center;max-width:1000px;margin:40px auto 0;padding:0 24px}
+.hero h1{font-size:clamp(2.2rem,5.5vw,4rem);font-weight:800;line-height:1.2}
+.highlight{font-weight:800;cursor:pointer;display:inline-block;transition:.2s transform}
+.highlight:hover{transform:scale(1.1)}
+.skills{color:#4ab1f1}.courses{color:#e472cb}.progress{color:#30d67a}.community{color:#f5793b}
+.subtext{margin-top:26px;font-size:1.1rem}
+.buttons{margin-top:34px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.btn{border:none;border-radius:40px;font-weight:600;padding:14px 36px;font-size:1rem;cursor:pointer;
+  transition:transform .2s}.btn:hover{transform:scale(1.08)}
+.primary{background:linear-gradient(90deg,#3b82f6 0%,#9333ea 100%);color:#fff}
+.secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.25)}
+
+/* Hover panel */
+#overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;opacity:0;transition:.25s}
+#overlay.show{pointer-events:auto;opacity:1}
+.panel{width:90%;max-width:460px;padding:26px;border-radius:20px;background:var(--glass);
+  border:1px solid var(--glass-line);backdrop-filter:blur(22px);display:flex;flex-direction:column;
+  gap:18px;color:var(--text-color);animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.card{background:var(--panel-bg);border:1px solid var(--glass-line);border-radius:14px;
+  padding:12px;display:flex;gap:14px;align-items:center}
+.card-icon{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+
+/* Stats */
+.stats{margin:90px auto 40px;display:flex;justify-content:center;flex-wrap:wrap;gap:30px;text-align:center}
+.stat-box{background:var(--panel-bg);border-radius:16px;padding:18px 24px;min-width:150px;
+  transition:.2s transform}.stat-box:hover{transform:scale(1.05)}
+.stat-box strong{display:block;font-size:1.6rem;margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<!-- ===== LOADER ELEMENTS ===== -->
+<div class="loader-container" id="loaderContainer">
+  <div class="loader-bar" id="loaderBar"></div>
+  <div class="loader-particles" id="particles"></div>
+</div>
+<div class="loader-percentage" id="loaderPercentage">0%</div>
+<div class="loader-dots">Loading</div>
+<div class="loader-complete" id="loaderComplete">LOADING COMPLETE!</div>
+
+<!-- ===== MAIN CONTENT (hidden until loader ends) ===== -->
+<div id="main-content">
+  <button id="themeToggle">🌙</button>
+
+  <div class="rating-bar">
+    <div class="rating-chip"><span class="star">★</span>4.8 rating on Capterra</div>
+    <div class="rating-chip"><span class="star">★</span>4.8 rating on G2</div>
+    <div class="rating-chip"><span class="star">★</span>350+ reviews on Xero</div>
+    <div class="rating-chip"><span class="star">★</span>550+ reviews on QuickBooks</div>
+  </div>
+
+  <section class="hero">
+    <h1>
+      Learn <span class="highlight skills" data-type="skills">skills</span> through
+      <span class="highlight courses" data-type="courses">courses</span><br>
+      track your <span class="highlight progress" data-type="progress">progress</span> with our
+      <span class="highlight community" data-type="community">community</span>
+    </h1>
+    <p class="subtext">Transform your career with EduVerse's comprehensive learning platform.</p>
+    <div class="buttons">
+        <button class="btn primary" onclick="location.href='start.html'">Start 14‑Day Free Trial</button>
+      <button class="btn secondary" onclick="location.href='learn-more.html'">Explore Courses</button>
+    </div>
+  </section>
+
+  <div id="overlay"><div class="panel" id="panelBox"></div></div>
+
+  <div class="stats">
+    <div class="stat-box"><strong>2M+</strong><span>Active Learners</span></div>
+    <div class="stat-box"><strong>10K+</strong><span>Expert Courses</span></div>
+    <div class="stat-box"><strong>95%</strong><span>Success Rate</span></div>
+  </div>
+</div>
+
+<!-- ========== SCRIPT ========== -->
+<script>
+// ---------------- LOADER SCRIPT ----------------
+const loaderBar=document.getElementById('loaderBar'),
+      loaderContainer=document.getElementById('loaderContainer'),
+      loaderPercentage=document.getElementById('loaderPercentage'),
+      particlesContainer=document.getElementById('particles'),
+      loaderComplete=document.getElementById('loaderComplete'),
+      mainContent=document.getElementById('main-content');
+let progress=0,current=0,steps=100;
+
+function createParticles(){
+  for(let i=0;i<3;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*progress*6+'px';
+    particlesContainer.appendChild(p);
+    setTimeout(()=>p.remove(),2000);
+  }
+}
+function explodeLoader(){
+  loaderBar.style.opacity='0';
+  const left=document.createElement('div'),right=document.createElement('div');
+  left.className='bar-piece left';right.className='bar-piece right';
+  loaderContainer.append(left,right);
+  setTimeout(()=>{
+    left.style.transform='translateX(-100%) rotate(-30deg) scale(1.5)';
+    right.style.transform='translateX(100%) rotate(30deg) scale(1.5)';
+    left.style.opacity=right.style.opacity='0';
+    loaderComplete.style.opacity='0';
+    loaderPercentage.style.opacity='0';
+    document.querySelector('.loader-dots').style.opacity='0';
+    /* reveal page */
+    mainContent.style.opacity='1';
+    mainContent.style.pointerEvents='auto';
+    /* allow scroll */
+    document.body.style.overflow='auto';
+    setTimeout(()=>{left.remove();right.remove();loaderContainer.remove();},800);
+  },100);
+}
+function updateLoader(){
+  if(current>=steps){loaderComplete.style.opacity='1';setTimeout(explodeLoader,800);return;}
+  current++;progress=current/steps*100;
+  loaderBar.style.width=progress+'%';
+  loaderPercentage.textContent=Math.floor(progress)+'%';
+  if(Math.random()<0.3+progress/150) createParticles();
+  setTimeout(updateLoader,40);
+}
+setTimeout(updateLoader,400);
+
+// ---------------- PAGE SCRIPTS (hover panel + theme) ----------------
+const data={
+  skills:{title:'Master In‑Demand Skills',list:[{icon:'🤖',txt:'AI & ML'},{icon:'🌐',txt:'Web Dev'},
+    {icon:'📊',txt:'Data Science'},{icon:'📱',txt:'Mobile Dev'}]},
+  courses:{title:'Comprehensive Courses',list:[{icon:'🎥',txt:'4K Lectures'},{icon:'📝',txt:'Assignments'},
+    {icon:'🎧',txt:'Podcasts'},{icon:'💬',txt:'Live Q&A'}]},
+  progress:{title:'Track Your Progress',list:[{icon:'📈',txt:'Growth'},
+    {icon:'🧩',txt:'Assessments'},{icon:'📊',txt:'Analytics'},{icon:'🏅',txt:'Badges'}]},
+  community:{title:'Our Global Community',list:[{icon:'👥',txt:'2M+ Learners'},
+    {icon:'🌍',txt:'150+ Countries'},{icon:'🤝',txt:'500+ Partners'},{icon:'🕐',txt:'24/7 Support'}]}
+};
+const overlay=document.getElementById('overlay'),panel=document.getElementById('panelBox');
+function build(type){
+  const{title,list}=data[type];
+  panel.innerHTML=`<h2>${title}</h2>`+list.map(i=>`
+    <div class="card"><div class="card-icon">${i.icon}</div><div>${i.txt}</div></div>`).join('');
+}
+function show(t){build(t);overlay.classList.add('show');}
+function hide(){overlay.classList.remove('show');}
+document.querySelectorAll('.highlight').forEach(el=>{
+  el.addEventListener('mouseenter',()=>show(el.dataset.type));
+});
+panel.addEventListener('mouseleave',hide);
+
+// Theme toggle
+const themeBtn=document.getElementById('themeToggle');
+const light={ "--grad-bg":"#f7f7f8","--glass":"rgba(0,0,0,.04)","--glass-line":"rgba(0,0,0,.1)",
+              "--text-color":"#111","--panel-bg":"rgba(0,0,0,.03)"};
+const dark ={ "--grad-bg":getComputedStyle(document.documentElement).getPropertyValue('--grad-bg'),
+              "--glass":getComputedStyle(document.documentElement).getPropertyValue('--glass'),
+              "--glass-line":getComputedStyle(document.documentElement).getPropertyValue('--glass-line'),
+              "--text-color":"#fff","--panel-bg":"rgba(255,255,255,.05)"};
+let mode=localStorage.getItem('theme')||'dark';
+function apply(t){for(const[k,v] of Object.entries(t))document.documentElement.style.setProperty(k,v);}
+function toggle(){mode=mode==='dark'?'light':'dark';apply(mode==='dark'?dark:light);
+  themeBtn.textContent=mode==='dark'?'🌙':'☀️';localStorage.setItem('theme',mode);}
+apply(mode==='dark'?dark:light);themeBtn.textContent=mode==='dark'?'🌙':'☀️';
+themeBtn.onclick=toggle;
+</script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduVerse | Community</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Include your full original dashboard CSS here (copy from your dashboard HTML) */
+    /* ----------  ROOT VARIABLES ---------- */
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4cc9f0;
+      --secondary: #3a0ca3;
+      --accent: #f72585;
+      --accent-light: #ff85a1;
+      --light: #f8f9fa;
+      --light-gray: #e9ecef;
+      --dark: #212529;
+      --dark-gray: #6c757d;
+      --success: #38b000;
+      --warning: #ff9e00;
+      --danger: #ef233c;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
+    }
+    body {
+      background: #f8fafc;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: linear-gradient(165deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: var(--shadow-md);
+      z-index: 10;
+    }
+    .logo {
+      text-align: center;
+      padding: 0 2rem 1.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .logo h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to right, #fff 65%, var(--accent-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav-menu {
+      padding: 0 1.5rem;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(3px);
+    }
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-item i {
+      margin-right: 12px;
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+    .main-content {
+      padding: 2rem;
+      background: #f8fafc;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 30px;
+      padding: 0.65rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      width: 350px;
+      transition: var(--transition);
+    }
+    .search-bar:focus-within {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .search-bar i {
+      color: var(--dark-gray);
+      margin-right: 10px;
+    }
+    .search-bar input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 0.95rem;
+    }
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 4px;
+      background: linear-gradient(to right, var(--accent), var(--accent-light));
+      border-radius: 2px;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 1.05rem;
+    }
+    .card-icon {
+      font-size: 1.25rem;
+      color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-description {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+    }
+    .recommendations {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .recommendation-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .recommendation-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .recommendation-thumbnail {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.05rem;
+      background: linear-gradient(45deg, #7209b7, #b5179e);
+      position: relative;
+    }
+    .recommendation-content {
+      padding: 1.25rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .badge-primary {
+      background: rgba(67, 97, 238, 0.15);
+      color: var(--primary);
+    }
+    .badge-success {
+      background: rgba(56, 176, 0, 0.15);
+      color: var(--success);
+    }
+    .enroll-btn {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .enroll-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+  </style>
+</head>
+
+</html>
+  <div class="dashboard">
+    <!-- Sidebar Reused -->
+    <div class="sidebar">
+      <div class="logo">
+        <h2>EduVerse Learning</h2>
+      </div>
+      <div class="nav-menu">
+        <a href="dashboard.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <div class="nav-item"><i class="fas fa-book-open"></i><span>My Courses</span></div>
+        <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Progress</span></div>
+        <a href="certificates.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>certificates</span></a>
+        <a href="community.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>Community</span></a>
+
+                <a href="settings.html" class="nav-item"><i class="fas fa-users" ></i><span>Settings</span></a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="header">
+        <h2 class="section-title">Community</h2>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search topics, users, posts..." />
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Top Contributors</span>
+            <div class="card-icon"><i class="fas fa-crown"></i></div>
+          </div>
+          <p class="card-description">See who’s helping the most in the community</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Trending Topics</span>
+            <div class="card-icon"><i class="fas fa-fire"></i></div>
+          </div>
+          <p class="card-description">Most discussed topics this week</p>
+        </div>
+      </div>
+
+      <div class="recommendations">
+        <div class="recommendation-card">
+          <div class="recommendation-thumbnail">🧠 AI in Education</div>
+          <div class="recommendation-content">
+            <span class="badge badge-primary">Discussion</span>
+            <h3 class="recommendation-title">How will AI change teaching?</h3>
+            <p>Join the conversation about the future of learning with AI.</p>
+            <div class="recommendation-meta">
+              <span>124 replies</span>
+              <button class="enroll-btn">Join</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="recommendation-card">
+          <div class="recommendation-thumbnail">🎨 UI Feedback</div>
+          <div class="recommendation-content">
+            <span class="badge badge-success">Poll</span>
+            <h3 class="recommendation-title">Which dashboard do you prefer?</h3>
+            <p>Cast your vote and help us improve the user experience.</p>
+            <div class="recommendation-meta">
+              <span>78 votes</span>
+              <button class="enroll-btn">Vote</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduVerse | Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4cc9f0;
+      --secondary: #3a0ca3;
+      --accent: #f72585;
+      --accent-light: #ff85a1;
+      --light: #f8f9fa;
+      --light-gray: #e9ecef;
+      --dark: #212529;
+      --dark-gray: #6c757d;
+      --success: #38b000;
+      --warning: #ff9e00;
+      --danger: #ef233c;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
+    }
+    body {
+      background: #f8fafc;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: linear-gradient(165deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: var(--shadow-md);
+      z-index: 10;
+    }
+    .logo {
+      text-align: center;
+      padding: 0 2rem 1.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .logo h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to right, #fff 65%, var(--accent-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav-menu {
+      padding: 0 1.5rem;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+      color: white;
+      text-decoration: none;
+    }
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(3px);
+    }
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-item i {
+      margin-right: 12px;
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+    .main-content {
+      padding: 2rem;
+      background: #f8fafc;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 30px;
+      padding: 0.65rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      width: 350px;
+      transition: var(--transition);
+    }
+    .search-bar:focus-within {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .search-bar i {
+      color: var(--dark-gray);
+      margin-right: 10px;
+    }
+    .search-bar input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 0.95rem;
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .user-profile:hover {
+      box-shadow: var(--shadow-md);
+    }
+    .user-profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+      border: 2px solid var(--primary-light);
+    }
+    .user-info h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .user-info p {
+      font-size: 0.8rem;
+      color: var(--dark-gray);
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 1.05rem;
+    }
+    .card-icon {
+      font-size: 1.25rem;
+      color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-description {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+      margin-bottom: 1rem;
+    }
+    .enroll-btn {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    .enroll-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 4px;
+      background: linear-gradient(to right, var(--accent), var(--accent-light));
+      border-radius: 2px;
+    }
+    @media (max-width: 992px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+      .nav-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+      .nav-item {
+        margin-bottom: 0;
+      }
+    }
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .header {
+        gap: 1rem;
+      }
+      .search-bar {
+        width: 100%;
+      }
+      .user-profile {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="logo">
+        <h2>EduVerse Learning</h2>
+      </div>
+      <div class="nav-menu">
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a href="courses.html" class="nav-item"><i class="fas fa-book"></i><span>My Courses</span></a>
+        <a href="progress.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Progress</span></a>
+        <a href="certificates.html" class="nav-item"><i class="fas fa-certificate"></i><span>Certificates</span></a>
+        <a href="community.html" class="nav-item"><i class="fas fa-users"></i><span>Community</span></a>
+                <a href="settings.html" class="nav-item"><i class="fas fa-users" ></i><span>Settings</span></a>
+
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <div class="header">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search settings..." />
+        </div>
+        <div class="user-profile">
+          <img src="https://i.pravatar.cc/300?img=12" alt="User profile" />
+          <div class="user-info">
+            <h4>Alex Johnson</h4>
+            <p>Advanced Learner</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Account Settings</h2>
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Profile Info</span>
+            <div class="card-icon"><i class="fas fa-user"></i></div>
+          </div>
+          <p class="card-description">Update your name, profile photo, and bio.</p>
+          <button class="enroll-btn">Edit Profile</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Email Address</span>
+            <div class="card-icon"><i class="fas fa-envelope"></i></div>
+          </div>
+          <p class="card-description">Change the email linked to your account.</p>
+          <button class="enroll-btn">Update Email</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Password</span>
+            <div class="card-icon"><i class="fas fa-lock"></i></div>
+          </div>
+          <p class="card-description">Choose a strong password for better security.</p>
+          <button class="enroll-btn">Change Password</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Notifications</span>
+            <div class="card-icon"><i class="fas fa-bell"></i></div>
+          </div>
+          <p class="card-description">Control when and how we notify you.</p>
+          <button class="enroll-btn">Manage Notifications</button>
+        </div>
+      </div>
+
+      <h2 class="section-title">Danger Zone</h2>
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Delete Account</span>
+            <div class="card-icon"><i class="fas fa-trash-alt" style="color: var(--danger);"></i></div>
+          </div>
+          <p class="card-description">Permanently delete your account and data.</p>
+          <button class="enroll-btn" style="border-color: var(--danger); color: var(--danger);">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

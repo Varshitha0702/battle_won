@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduVerse Learning Dashboard</title>
+
+  <!-- Font Awesome 6 icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <style>
+    
+    /* ----------  ROOT VARIABLES ---------- */
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4cc9f0;
+      --secondary: #3a0ca3;
+      --accent: #f72585;
+      --accent-light: #ff85a1;
+      --light: #f8f9fa;
+      --light-gray: #e9ecef;
+      --dark: #212529;
+      --dark-gray: #6c757d;
+      --success: #38b000;
+      --warning: #ff9e00;
+      --danger: #ef233c;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* ----------  GLOBAL RESET ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+        sans-serif;
+    }
+    body {
+      background: #f8fafc;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ----------  LAYOUT ---------- */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ----------  SIDEBAR ---------- */
+    .sidebar {
+      background: linear-gradient(165deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: var(--shadow-md);
+      z-index: 10;
+    }
+    .logo {
+      text-align: center;
+      padding: 0 2rem 1.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .logo h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to right, #fff 65%, var(--accent-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav-menu {
+      padding: 0 1.5rem;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(3px);
+    }
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-item i {
+      margin-right: 12px;
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    /* ----------  MAIN CONTENT ---------- */
+    .main-content {
+      padding: 2rem;
+      background: #f8fafc;
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 30px;
+      padding: 0.65rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      width: 350px;
+      transition: var(--transition);
+    }
+    .search-bar:focus-within {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .search-bar i {
+      color: var(--dark-gray);
+      margin-right: 10px;
+    }
+    .search-bar input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 0.95rem;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .user-profile:hover {
+      box-shadow: var(--shadow-md);
+    }
+    .user-profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+      border: 2px solid var(--primary-light);
+    }
+    .user-info h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .user-info p {
+      font-size: 0.8rem;
+      color: var(--dark-gray);
+    }
+
+    /* ----------  DASHBOARD CARDS ---------- */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 1.05rem;
+    }
+    .card-icon {
+      font-size: 1.25rem;
+      color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-value {
+      font-size: 2.1rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .card-description {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+    }
+
+    /* section title */
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 4px;
+      background: linear-gradient(to right, var(--accent), var(--accent-light));
+      border-radius: 2px;
+    }
+
+    /* COURSE PROGRESS */
+    .course-progress {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .course-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .course-thumbnail {
+      height: 180px;
+      background: linear-gradient(45deg, #3a0ca3, #4cc9f0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.15rem;
+      position: relative;
+    }
+    .course-thumbnail::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.35));
+    }
+    .progress-container {
+      padding: 0 1.5rem;
+      position: relative;
+      top: -10px;
+    }
+    .progress-bar {
+      height: 8px;
+      background: var(--light-gray);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--success), #80ed99);
+      border-radius: 4px;
+      width: 0;
+      transition: width 0.8s ease;
+    }
+    .course-info {
+      padding: 0 1.5rem 1.5rem;
+    }
+    .course-title {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 0.25rem;
+    }
+    .course-instructor {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+    }
+    .course-instructor::before {
+      content: "👨‍🏫";
+      margin-right: 6px;
+    }
+    .course-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    .course-rating {
+      display: flex;
+      align-items: center;
+    }
+    .course-rating i {
+      color: var(--warning);
+      margin-right: 3px;
+      font-size: 0.85rem;
+    }
+    .course-progress-text {
+      font-weight: 700;
+      color: var(--success);
+      font-size: 0.95rem;
+    }
+    .resume-btn {
+      margin-top: 12px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .resume-btn:hover {
+      background: var(--secondary);
+    }
+
+    /* RECOMMENDATIONS */
+    .recommendations {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .recommendation-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .recommendation-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .recommendation-thumbnail {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.05rem;
+      background: linear-gradient(45deg, #7209b7, #b5179e);
+      position: relative;
+    }
+    .recommendation-content {
+      padding: 1.25rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .badge-primary {
+      background: rgba(67, 97, 238, 0.15);
+      color: var(--primary);
+    }
+    .badge-success {
+      background: rgba(56, 176, 0, 0.15);
+      color: var(--success);
+    }
+    .badge {
+      background: rgba(247, 37, 133, 0.15);
+      color: var(--accent);
+    }
+    .recommendation-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+    .recommendation-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--dark-gray);
+    }
+    .enroll-btn {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .enroll-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* ----------  RESPONSIVE ---------- */
+    @media (max-width: 992px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+      .nav-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+      .nav-item {
+        margin-bottom: 0;
+      }
+    }
+    @media (max-width: 768px) {
+      .dashboard-grid,
+      .course-progress,
+      .recommendations {
+        grid-template-columns: 1fr;
+      }
+      .header {
+        gap: 1rem;
+      }
+      .search-bar {
+        width: 100%;
+      }
+      .user-profile {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ----------  FADE‑IN ANIMATION FOR CARDS ---------- */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .card:nth-child(1) { animation: fadeIn 0.45s ease-out; }
+    .card:nth-child(2) { animation: fadeIn 0.65s ease-out; }
+    .card:nth-child(3) { animation: fadeIn 0.85s ease-out; }
+    .card:nth-child(4) { animation: fadeIn 1.05s ease-out; }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- ========== SIDEBAR ========== -->
+    <div class="sidebar">
+      <div class="logo">
+        <h2>EduVerse Learning</h2>
+      </div>
+
+      <div class="nav-menu">
+        <div class="nav-item active">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </div>
+                <a href="courses.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>My courses</span></a>
+
+        <a href="progress.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>Progress</span></a>
+                <a href="certificates.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>certificates</span></a>
+
+                <a href="community.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>Community</span></a>
+
+                        <a href="settings.html" class="nav-item"><i class="fas fa-users" ></i><span>Settings</span></a>
+
+      </div>
+    </div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search courses, lessons, resources…" />
+        </div>
+
+        <div class="user-profile">
+          <img
+            src="https://i.pravatar.cc/300?img=12"
+            alt="User profile"
+          />
+          <div class="user-info">
+            <h4>Alex Johnson</h4>
+            <p>Advanced Learner</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Stats -->
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Active Courses</span>
+            <div class="card-icon"><i class="fas fa-book"></i></div>
+          </div>
+          <div class="card-value">5</div>
+          <p class="card-description">You're currently enrolled in 5 courses</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Completion Rate</span>
+            <div class="card-icon"><i class="fas fa-check-circle"></i></div>
+          </div>
+          <div class="card-value">84%</div>
+          <p class="card-description">Higher than 72% of learners</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Learning Streak</span>
+            <div class="card-icon"><i class="fas fa-fire"></i></div>
+          </div>
+          <div class="card-value">12 days</div>
+          <p class="card-description">Keep it up to earn bonus XP!</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Points Earned</span>
+            <div class="card-icon"><i class="fas fa-star"></i></div>
+          </div>
+          <div class="card-value">3,450</div>
+          <p class="card-description">Top 15 % of all learners</p>
+        </div>
+      </div>
+
+      <!-- Continue Learning -->
+      <h2 class="section-title">Continue Learning</h2>
+      <div class="course-progress">
+        <!-- Course 1 -->
+        <div class="course-card">
+          <div class="course-thumbnail">Advanced JavaScript</div>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 68%"></div>
+            </div>
+          </div>
+          <div class="course-info">
+            <h3 class="course-title">Advanced JavaScript Patterns</h3>
+            <p class="course-instructor">By Marcus Phillips</p>
+            <div class="course-stats">
+              <div class="course-rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star-half-alt"></i>
+                <span>4.7 (1.2k)</span>
+              </div>
+              <div class="course-progress-text">68 %</div>
+            </div>
+            <button class="resume-btn">Resume</button>
+          </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="course-card">
+          <div class="course-thumbnail">React Masterclass</div>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 42%"></div>
+            </div>
+          </div>
+          <div class="course-info">
+            <h3 class="course-title">React 18 Masterclass</h3>
+            <p class="course-instructor">By Sarah Chen</p>
+            <div class="course-stats">
+              <div class="course-rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i>
+                <span>5.0 (893)</span>
+              </div>
+              <div class="course-progress-text">42 %</div>
+            </div>
+            <button class="resume-btn">Resume</button>
+          </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="course-card">
+          <div class="course-thumbnail">UI/UX Design</div>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 25%"></div>
+            </div>
+          </div>
+          <div class="course-info">
+            <h3 class="course-title">Modern UI/UX Design</h3>
+            <p class="course-instructor">By Emma Rodriguez</p>
+            <div class="course-stats">
+              <div class="course-rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i>
+                <span>4.9 (1.5k)</span>
+              </div>
+              <div class="course-progress-text">25 %</div>
+            </div>
+            <button class="resume-btn">Resume</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <h2 class="section-title">Recommended For You</h2>
+      <div class="recommendations">
+        <!-- Rec 1 -->
+        <div class="recommendation-card">
+          <div class="recommendation-thumbnail">Node.js</div>
+          <div class="recommendation-content">
+            <span class="badge badge-primary">Popular</span>
+            <h3 class="recommendation-title">Node.js Backend Mastery</h3>
+            <p>Build scalable back‑end services with Node</p>
+            <div class="recommendation-meta">
+              <span>12 h 40 m</span>
+              <button class="enroll-btn">Enroll</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rec 2 -->
+        <div class="recommendation-card">
+          <div class="recommendation-thumbnail">CSS Art</div>
+          <div class="recommendation-content">
+            <span class="badge badge-success">New</span>
+            <h3 class="recommendation-title">Advanced CSS Artistry</h3>
+            <p>Create stunning visuals with pure CSS</p>
+            <div class="recommendation-meta">
+              <span>8 h 15 m</span>
+              <button class="enroll-btn">Enroll</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rec 3 -->
+        <div class="recommendation-card">
+          <div class="recommendation-thumbnail">Docker</div>
+          <div class="recommendation-content">
+            <span class="badge">Essential</span>
+            <h3 class="recommendation-title">Docker for Developers</h3>
+            <p>Master containerization for modern apps</p>
+            <div class="recommendation-meta">
+              <span>6 h 30 m</span>
+              <button class="enroll-btn">Enroll</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /main‑content -->
+  </div> <!-- /dashboard -->
+
+  <!-- ----------  JAVASCRIPT  ---------- -->
+  <script>
+    document.addEventListener(\"DOMContentLoaded\", () => {
+      // animate course progress bars
+      document.querySelectorAll('.progress-fill').forEach(fill => {
+        const width = fill.style.width;
+        fill.style.width = '0';
+        setTimeout(() => { fill.style.width = width; }, 300);
+      });
+
+      // subtle click effect on cards (except buttons)
+      document.querySelectorAll('.card, .course-card, .recommendation-card').forEach(card => {
+        card.addEventListener('click', e => {
+          if (e.target.tagName !== 'BUTTON') {
+            card.style.transform = 'scale(0.98)';
+            setTimeout(() => { card.style.transform = ''; }, 150);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

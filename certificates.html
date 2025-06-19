@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduVerse Certificates</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4cc9f0;
+      --secondary: #3a0ca3;
+      --accent: #f72585;
+      --accent-light: #ff85a1;
+      --bg: #f8fafc;
+      --card: #fff;
+      --text: #212529;
+      --gray: #6c757d;
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: linear-gradient(165deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .logo { text-align: center; padding: 0 2rem 1rem; }
+    .logo h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #fff 65%, var(--accent-light));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .nav-menu { padding: 0 1.5rem; }
+    .nav-item {
+      display: flex; align-items: center; margin-bottom: 0.5rem;
+      padding: 0.85rem 1.25rem; border-radius: 8px;
+      cursor: pointer; transition: 0.3s ease; font-weight: 500;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.15); transform: translateX(5px); }
+    .nav-item.active { background: rgba(255,255,255,0.25); }
+    .nav-item i { margin-right: 12px; width: 20px; text-align: center; }
+
+    .main-content { padding: 2rem; }
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .search-bar {
+      display: flex; align-items: center; background: #fff;
+      border-radius: 30px; padding: 0.65rem 1.25rem;
+      box-shadow: var(--shadow-md); width: 350px;
+    }
+    .search-bar i { color: var(--gray); margin-right: 10px; }
+    .search-bar input { border: none; outline: none; width: 100%; }
+    .user-profile {
+      display: flex; align-items: center; background: #fff;
+      padding: 0.5rem 1rem; border-radius: 30px; box-shadow: var(--shadow-md);
+    }
+    .user-profile img {
+      width: 40px; height: 40px; border-radius: 50%; margin-right: 12px;
+      border: 2px solid var(--primary-light);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .top-bar h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .certificates-carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 1.25rem;
+      padding-bottom: 0.75rem;
+    }
+    .certificate-card {
+      position: relative;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      flex: 0 0 auto;
+      width: 320px;
+      transition: 0.3s ease;
+    }
+    .certificate-card:hover {
+      transform: translateY(-4px);
+    }
+    .certificate-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .linkedin-btn {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .certificate-card:hover .linkedin-btn {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="logo"><h2>EduVerse Learning</h2></div>
+      <div class="nav-menu">
+        <a href="dashboard.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>Dashboard</span></a>
+
+      <a href="courses.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>My courses</span></a>
+                      <a href="progress.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>Progress</span></a>
+                <a href="certificates.html" class="nav-item" style="color: white;"><i class="fas fa-home"></i><span>certificates</span></a>
+
+                <a href="settings.html" class="nav-item"><i class="fas fa-users" ></i><span>Settings</span></a>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="header">
+        <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Search certificates…" /></div>
+        <div class="user-profile">
+          <img src="https://i.pravatar.cc/300?img=12" alt="profile" />
+          <div><h4>Alex Johnson</h4><p style="font-size: 0.8rem; color: var(--gray)">Advanced Learner</p></div>
+        </div>
+      </div>
+
+      <div class="top-bar">
+        <h2>Certificates Earned</h2>
+      </div>
+
+      <div class="certificates-carousel">
+        <div class="certificate-card">
+          <img src="https://dummyimage.com/600x200/4cc9f0/ffffff&text=JavaScript+Certificate" alt="JS Certificate" />
+          <button class="linkedin-btn">Add to LinkedIn</button>
+        </div>
+        <div class="certificate-card">
+          <img src="https://dummyimage.com/600x200/f72585/ffffff&text=React+Mastery" alt="React Certificate" />
+          <button class="linkedin-btn">Add to LinkedIn</button>
+        </div>
+        <div class="certificate-card">
+          <img src="https://dummyimage.com/600x200/7209b7/ffffff&text=UI%2FUX+Design" alt="UI UX Certificate" />
+          <button class="linkedin-btn">Add to LinkedIn</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
